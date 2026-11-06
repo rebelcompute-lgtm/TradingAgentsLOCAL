@@ -1,9 +1,31 @@
 # one webOS app id per line; verify with: luna-send -n 1 luna://com.webos.applicationManager/listApps '{}'
-com.webos.app.discovery
-com.webos.app.lgworld
-com.webos.app.tvuserguide
+# IDs below were confirmed against scripts/list-apps.sh output on a real LG UN7000PUB
+# (webOS 5.6.1, OTAID HE_DTV_W20P_AFADATAA) on 2026-11-06.
+
+# ACR / viewing-habit tracking (LivePlus)
+com.webos.app.acrcomponent
+com.webos.app.acrhdmi1
+com.webos.app.acrhdmi2
+com.webos.app.acrhdmi3
+com.webos.app.acrhdmi4
+com.webos.app.acroverlay
+
+# Ads
+com.webos.app.adapp
+com.webos.app.adhdmi1
+com.webos.app.adhdmi2
+com.webos.app.adhdmi3
+com.webos.app.adhdmi4
+com.webos.app.adoverlay
+com.webos.app.adoverlayex
+
+# Promo / shopping / games clutter
+com.lgshop.app
+com.volley.lgshell
+com.twin.app.gamingportal
+epoxyaisports
+com.webos.app.dangbei-card
+com.webos.app.dangbei-overlay
 com.webos.app.homeconnect
-com.webos.app.smartshare
-com.webos.app.livezoom
-com.webos.app.arcade
-com.webos.app.sportsalert
+com.webos.app.sportsteamsettings
+com.webos.app.tvuserguide
