@@ -6,6 +6,12 @@ Debloat an LG webOS TV and give its HDMI inputs proper labels/icons
 > Status: scaffold. Commands below are a starting point and **must be verified on
 > your TV model/webOS version**. Nothing here has been run against a real TV.
 
+## Target
+LG UN7000PUB (2020 US UHD series, believed to run webOS 5.x; confirm in
+Settings > General > About This TV). Rootability depends on your exact
+firmware version: check https://www.webosbrew.org/ (rooting guide) before
+doing anything, and do not accept firmware updates until you know.
+
 ## Approach
 1. **Root / dev access** via the community [webOS Brew](https://www.webosbrew.org/)
    project (Homebrew Channel + `dev-manager-desktop` / `ares-cli`). Supported models
