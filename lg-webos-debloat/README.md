@@ -3,8 +3,7 @@
 Debloat an LG webOS TV and give its HDMI inputs proper labels/icons
 (e.g. **Apple TV** on HDMI 1, **Nintendo Switch** on HDMI 2).
 
-> Status: scaffold. Commands below are a starting point and **must be verified on
-> your TV model/webOS version**. Nothing here has been run against a real TV.
+> Status: tested on a real UN7000PUB (webOS 5.x, fw 04.63.25, rooted). See "What actually works".
 
 ## Target
 LG UN7000PUB (2020 US UHD series, believed to run webOS 5.x; confirm in
@@ -39,7 +38,34 @@ export TV_IP=192.168.1.50
 ```
 Requires `ssh` access to the rooted TV (user `root`) .
 
+## What actually works (tested on UN7000PUB)
+Run luna-send on the TV with output to a file (`cmd > /tmp/x &` then read it); piping over ssh
+sometimes returns nothing on this TV, especially in the first minutes after boot (load ~36).
+Reboots take ~6 min until the luna bus answers properly.
+
+**Input labels (works, verified):** `luna://com.webos.service.eim/setDeviceInfo`
+`{"id":"HDMI_1","label":"Apple TV","icon":"appletv.png","forceIcon":true}`. There is no
+`setInputLabel`. Stock icons live in `/usr/palm/plugins/inputapps/assets/small/`
+(`appletv.png`, `gameconsole.png`, `xbox.png`, ...). `set-inputs.sh --status/--restore`.
+Not yet checked: whether labels survive a reboot.
+
+**Hiding apps: no good reversible mechanism found.**
+- `lockApp` (`{"id","lock":bool}`, caller spoofed as `com.webos.appInstallService`) blocks launch
+  only, keeps the icon, and did not persist across a reboot.
+- `removeLaunchPoint` is refused for system apps (`removable:false`: "this launch point cannot be
+  removable"). For removable apps it **uninstalls the app** (files under `/media/cryptofs/apps`
+  deleted; `com.lgshop.app` / Shop Time is gone from `listApps`). A reboot does not bring it back,
+  and `addLaunchPoint` can't either (it needs the installed app; for an installed app it just
+  creates a *duplicate* launch point, `{"id":appId}`, removable via its returned launchPointId).
+- Setting `"visible":false` in a removable app's `appinfo.json` (backup first) hid the icon after a
+  reboot once and restoring the backup brought it back, but on later reboots the TV rewrote the
+  app directories and reverted the edit. `debloat.sh` uses this + `lockApp` as best-effort.
+- ACR/ad components are headless system apps; whether `lockApp` actually stops them is unverified.
+  Use Settings > General > About This TV > User Agreements to turn off Live Plus/ads as well.
+- To get Shop Time back: LG's store may reinstall it on its own; otherwise a factory reset or an
+  installer ipk is needed.
+
 ## Safety
-Disabling apps is reversible via `./scripts/debloat.sh --restore`. Keep a backup
-of `/var/luna/preferences` first (script does this). You risk bricking/voiding
+`./scripts/debloat.sh --restore` undoes `--apply` (reboot afterwards). Never use removeLaunchPoint on
+removable apps (uninstalls them). You risk bricking/voiding
 warranty; proceed at your own risk.
