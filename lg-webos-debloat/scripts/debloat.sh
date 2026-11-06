@@ -11,8 +11,11 @@ run() { ssh root@"$TV_IP" "$@"; }
 if (( APPLY )); then
   run 'mkdir -p /media/developer/backup && cp -r /var/luna/preferences /media/developer/backup/ 2>/dev/null || true'
 fi
+INSTALLED="$DIR/config/installed-apps.json"
+[[ -f "$INSTALLED" ]] || { echo "Run scripts/list-apps.sh first so IDs are verified."; exit 1; }
 while read -r app; do
   [[ -z "$app" || "$app" == \#* ]] && continue
+  if ! grep -q "\"$app\"" "$INSTALLED"; then echo "skip (not installed): $app"; continue; fi
   # TODO verify on device: lockApp/ unlockApp hides an app from the launcher without deleting it
   method=lockApp; (( RESTORE )) && method=unlockApp
   cmd="luna-send -n 1 luna://com.webos.applicationManager/$method '{\"id\":\"$app\"}'"

@@ -26,6 +26,11 @@ doing anything, and do not accept firmware updates until you know.
 4. Also turn off telemetry/ads: Settings > General > About This TV > User
    Agreements (disable Live Plus / personalized ads) and reset the Advertising ID.
 
+## Setup (rooted TV)
+1. Root with dejavuln-autoroot or faultmanager-autoroot (see their READMEs); don't update firmware.
+2. Open Homebrew Channel, enable SSH, and add your public key (`ssh-copy-id root@$TV_IP`).
+3. `./scripts/list-apps.sh` then edit `config/bloat.txt` using the real IDs it prints.
+
 ## Usage
 ```bash
 export TV_IP=192.168.1.50
