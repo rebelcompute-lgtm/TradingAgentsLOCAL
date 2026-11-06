@@ -1,0 +1,9 @@
+# one webOS app id per line; verify with: luna-send -n 1 luna://com.webos.applicationManager/listApps '{}'
+com.webos.app.discovery
+com.webos.app.lgworld
+com.webos.app.tvuserguide
+com.webos.app.homeconnect
+com.webos.app.smartshare
+com.webos.app.livezoom
+com.webos.app.arcade
+com.webos.app.sportsalert

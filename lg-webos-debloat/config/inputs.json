@@ -1,0 +1,4 @@
+{
+  "HDMI_1": { "label": "Apple TV", "icon": "settopbox" },
+  "HDMI_2": { "label": "Nintendo Switch", "icon": "gameconsole" }
+}
